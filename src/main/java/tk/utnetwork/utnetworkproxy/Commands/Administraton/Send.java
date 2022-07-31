@@ -35,6 +35,11 @@ public class Send extends Command {
             return;
         }
 
+        if (target.getServer().getInfo().equals(server)) {
+            sender.sendMessage(Utils.chat("%t" + target.getDisplayName() + " %tis already connected to " + server.getName() + "%t."));
+            return;
+        }
+
         target.connect(server, ServerConnectEvent.Reason.COMMAND);
         sender.sendMessage(Utils.chat("%pAttempted to send %s" + target.getDisplayName() + " %pto %s" + server.getName() + "%p."));
         target.sendMessage(Utils.chat("%pYou've been sent to %s" + server.getName() + " %pby %s" + ((sender instanceof ProxiedPlayer) ? ((ProxiedPlayer)sender).getDisplayName() : plugin.getConfigManager().getConfig().getString("console_displayname") == null ? "&c&lConsole" : plugin.getConfigManager().getConfig().getString("console_displayname")) + "%p."));
