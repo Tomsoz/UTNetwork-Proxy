@@ -5,11 +5,16 @@ import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import tk.utnetwork.utnetworkproxy.Commands.Administraton.Send;
+import tk.utnetwork.utnetworkproxy.Misc.ConfigManager;
+import tk.utnetwork.utnetworkproxy.Misc.Utils;
 
 public final class UTNetworkProxy extends Plugin {
+    Utils utils = new Utils(this);
+    ConfigManager config = new ConfigManager(this);
 
     @Override
     public void onEnable() {
+        setupConfig();
         registerCommands();
         registerEvents();
     }
@@ -20,11 +25,19 @@ public final class UTNetworkProxy extends Plugin {
     }
 
     public void registerCommands() {
-        registerCommand(new Send("send", "proxy.send", new String[] {}));
+        registerCommand(new Send(this, "send", "proxy.send", new String[] {}));
     }
 
     public void registerEvents() {
 
+    }
+
+    public void setupConfig() {
+        config.initialise();
+    }
+
+    public ConfigManager getConfigManager() {
+        return config;
     }
 
     private void registerCommand(Command cmd) {
