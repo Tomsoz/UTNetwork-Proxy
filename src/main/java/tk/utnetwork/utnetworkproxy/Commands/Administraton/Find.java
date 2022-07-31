@@ -12,6 +12,9 @@ import net.md_5.bungee.api.plugin.TabExecutor;
 import tk.utnetwork.utnetworkproxy.Misc.Utils;
 import tk.utnetwork.utnetworkproxy.UTNetworkProxy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static tk.utnetwork.utnetworkproxy.Misc.Utils.*;
 
 public class Find extends Command implements TabExecutor {
@@ -46,6 +49,14 @@ public class Find extends Command implements TabExecutor {
 
     @Override
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
-        return null;
+        List<String> results = new ArrayList<>();
+        if (args.length == 1) {
+            for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
+                if (p.getName().startsWith(args[0])) {
+                    results.add(p.getName());
+                }
+            }
+        }
+        return results;
     }
 }

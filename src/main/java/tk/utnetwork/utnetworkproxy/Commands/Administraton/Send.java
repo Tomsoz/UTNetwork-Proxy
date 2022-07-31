@@ -35,7 +35,7 @@ public class Send extends Command implements TabExecutor {
 
         ServerInfo server = ProxyServer.getInstance().getServerInfo(args[1]);
         if (server == null) {
-            sender.sendMessage(Utils.chat("%tThe server " + args[0] + " doesn't exist."));
+            sender.sendMessage(Utils.chat("%tThe server " + args[1] + " doesn't exist."));
             return;
         }
 
