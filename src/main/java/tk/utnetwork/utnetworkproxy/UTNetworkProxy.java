@@ -9,12 +9,15 @@ import tk.utnetwork.utnetworkproxy.Misc.ConfigManager;
 import tk.utnetwork.utnetworkproxy.Misc.Utils;
 
 public final class UTNetworkProxy extends Plugin {
-    Utils utils = new Utils(this);
+    Utils utils;
     ConfigManager config = new ConfigManager(this);
 
     @Override
     public void onEnable() {
         setupConfig();
+
+        utils = new Utils(this);
+
         registerCommands();
         registerEvents();
     }
