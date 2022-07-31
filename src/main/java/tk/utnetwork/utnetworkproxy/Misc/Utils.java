@@ -11,13 +11,13 @@ public class Utils {
     public Utils(UTNetworkProxy plugin) {
         this.plugin = plugin;
     }
-    public static BaseComponent chat(String textToTranslate) {
+    public static BaseComponent[] chat(String textToTranslate) {
         return new ComponentBuilder((plugin.getConfigManager().getConfig().getString("prefix") + textToTranslate)
                 .replaceAll("%p", getPrimaryColour())
                 .replaceAll("%s", getSecondaryColour())
                 .replaceAll("%t", getTertiaryColour())
                 .replaceAll("&", "§"))
-                .getCurrentComponent();
+                .create();
     }
 
     public static void log(String message) {
@@ -25,7 +25,7 @@ public class Utils {
                 .replaceAll("%s", getSecondaryColour())
                 .replaceAll("%t", getTertiaryColour())
                 .replaceAll("&", "§"))
-                .getCurrentComponent());
+                .create());
     }
 
     public static String getPrimaryColour() {
@@ -45,7 +45,7 @@ public class Utils {
         if (colours) {
             ProxyServer.getInstance().broadcast(chat(message));
         } else {
-            ProxyServer.getInstance().broadcast(new ComponentBuilder(message).getCurrentComponent());
+            ProxyServer.getInstance().broadcast(new ComponentBuilder(message).create());
         }
         return true;
     }
