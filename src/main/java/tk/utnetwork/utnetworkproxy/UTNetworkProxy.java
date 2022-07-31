@@ -1,8 +1,8 @@
-package xyz.tomsoz.utnetworkproxy;
+package tk.utnetwork.utnetworkproxy;
 
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
-import xyz.tomsoz.utnetworkproxy.Misc.Utils;
+import tk.utnetwork.utnetworkproxy.Misc.Utils;
 
 public final class UTNetworkProxy extends Plugin {
 
