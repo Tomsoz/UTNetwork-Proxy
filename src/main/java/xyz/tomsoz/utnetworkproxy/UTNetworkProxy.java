@@ -9,7 +9,6 @@ public final class UTNetworkProxy extends Plugin {
     @Override
     public void onEnable() {
         ProxyServer.getInstance().getConsole().sendMessage(Utils.chat("&aThe plugin has enabled successfully."));
-        ProxyServer.getInstance().getConsole().sendMessage(Utils.chat("&aTomsoz is a smelly rat and looks like a bitch, (all said by racistmonke)."));
     }
 
     @Override
