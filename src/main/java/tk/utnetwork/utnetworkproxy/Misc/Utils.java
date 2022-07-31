@@ -3,6 +3,7 @@ package tk.utnetwork.utnetworkproxy.Misc;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
+import net.md_5.bungee.api.config.ServerInfo;
 import tk.utnetwork.utnetworkproxy.UTNetworkProxy;
 
 public class Utils {
@@ -11,7 +12,7 @@ public class Utils {
         this.plugin = plugin;
     }
     public static BaseComponent chat(String textToTranslate) {
-        return new ComponentBuilder(textToTranslate
+        return new ComponentBuilder((plugin.getConfigManager().getConfig().getString("prefix") + textToTranslate)
                 .replaceAll("%p", getPrimaryColour())
                 .replaceAll("%s", getSecondaryColour())
                 .replaceAll("%t", getTertiaryColour())
@@ -38,6 +39,15 @@ public class Utils {
     public static String getTertiaryColour() {
         return plugin.getConfigManager().getConfig().getString("colours.tertiary") == null ?
                 "&c" : plugin.getConfigManager().getConfig().getString("colours.tertiary");
+    }
+
+    public boolean broadcast(String message, boolean colours) {
+        if (colours) {
+            ProxyServer.getInstance().broadcast(chat(message));
+        } else {
+            ProxyServer.getInstance().broadcast(new ComponentBuilder(message).getCurrentComponent());
+        }
+        return true;
     }
 
 }

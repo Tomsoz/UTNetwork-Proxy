@@ -1,5 +1,5 @@
 console_displayname: "&c&lConsole"
-
+prefix: "%p[%sUT%p] "
 colours:
   primary: "&3"
   secondary: "&b"

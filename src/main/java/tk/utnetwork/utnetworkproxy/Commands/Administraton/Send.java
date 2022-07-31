@@ -6,10 +6,14 @@ import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 import tk.utnetwork.utnetworkproxy.Misc.Utils;
 import tk.utnetwork.utnetworkproxy.UTNetworkProxy;
 
-public class Send extends Command {
+import java.util.*;
+import java.util.stream.Collectors;
+
+public class Send extends Command implements TabExecutor {
     UTNetworkProxy plugin;
     public Send(UTNetworkProxy plugin, String name, String permission, String... aliases) {
         super(name, permission, aliases);
@@ -43,5 +47,31 @@ public class Send extends Command {
         target.connect(server, ServerConnectEvent.Reason.COMMAND);
         sender.sendMessage(Utils.chat("%pAttempted to send %s" + target.getDisplayName() + " %pto %s" + server.getName() + "%p."));
         target.sendMessage(Utils.chat("%pYou've been sent to %s" + server.getName() + " %pby %s" + ((sender instanceof ProxiedPlayer) ? ((ProxiedPlayer)sender).getDisplayName() : plugin.getConfigManager().getConfig().getString("console_displayname") == null ? "&c&lConsole" : plugin.getConfigManager().getConfig().getString("console_displayname")) + "%p."));
+    }
+
+    @Override
+    public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
+        List<String> results = new ArrayList<>();
+        if (args.length == 1) {
+            for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
+                if (p.getName().toLowerCase().startsWith(args[0].toLowerCase())) {
+                    results.add(p.getName());
+                }
+            }
+            if ("all".startsWith(args[0].toLowerCase())) results.add("all");
+
+            for (Map.Entry<String, ServerInfo> s : ProxyServer.getInstance().getServersCopy().entrySet()) {
+                if (s.getValue().getName().toLowerCase().startsWith(args[0].toLowerCase())) {
+                    results.add(s.getValue().getName());
+                }
+            }
+        } else if (args.length == 2) {
+            for (Map.Entry<String, ServerInfo> s : ProxyServer.getInstance().getServersCopy().entrySet()) {
+                if (s.getValue().getName().toLowerCase().startsWith(args[1].toLowerCase())) {
+                    results.add(s.getValue().getName());
+                }
+            }
+        }
+        return results;
     }
 }
