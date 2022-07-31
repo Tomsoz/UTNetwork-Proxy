@@ -10,8 +10,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static jdk.jfr.internal.SecuritySupport.getResourceAsStream;
-
 public class ConfigManager {
     UTNetworkProxy plugin;
     public ConfigManager(UTNetworkProxy plugin) {
@@ -44,7 +42,7 @@ public class ConfigManager {
 
             if (!configFile.exists()) {
                 FileOutputStream outputStream = new FileOutputStream(configFile);
-                InputStream in = getResourceAsStream("config.yml");
+                InputStream in = this.getClass().getClassLoader().getResourceAsStream("config.yml");
                 in.transferTo(outputStream);
             }
             return true;
