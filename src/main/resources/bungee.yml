@@ -1,4 +1,5 @@
 name: UTNetwork Proxy
 version: '${project.version}'
-main: xyz.tomsoz.utnetworkproxy.UTNetworkProxy
+main: tk.utnetwork.utnetworkproxy.UTNetworkProxy
 description: The core proxy plugin for the UTNetwork server.
+author: Tomsoz, Ul1ra_
