@@ -4,10 +4,14 @@ import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
+import net.md_5.bungee.api.plugin.TabExecutor;
 import tk.utnetwork.utnetworkproxy.Misc.Utils;
 import tk.utnetwork.utnetworkproxy.UTNetworkProxy;
 
-public class Forge extends Command {
+import java.util.ArrayList;
+import java.util.List;
+
+public class Forge extends Command implements TabExecutor {
     UTNetworkProxy plugin;
     public Forge(UTNetworkProxy plugin, String name, String permission, String... aliases) {
         super(name, permission, aliases);
@@ -32,5 +36,18 @@ public class Forge extends Command {
         } else {
             sender.sendMessage(Utils.chat("%s" + target.getDisplayName() + " %pis not on forge."));
         }
+    }
+
+    @Override
+    public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
+        List<String> results = new ArrayList<>();
+        if (args.length == 1) {
+            for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
+                if (p.getName().startsWith(args[0])) {
+                    results.add(p.getName());
+                }
+            }
+        }
+        return results;
     }
 }

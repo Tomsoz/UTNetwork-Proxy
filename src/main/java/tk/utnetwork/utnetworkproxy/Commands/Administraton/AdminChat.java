@@ -15,6 +15,13 @@ public class AdminChat extends Command {
 
     @Override
     public void execute(CommandSender sender, String[] args) {
+        if (sender instanceof ProxiedPlayer) {
+            ProxiedPlayer p = (ProxiedPlayer) sender;
+            if (Utils.areStaffMessagesOff(p)) {
+                p.sendMessage(Utils.chat("%tYou can't use adminchat as your staff messages are disabled."));
+                return;
+            }
+        }
         if (args.length == 0) {
             if (!(sender instanceof ProxiedPlayer)) {
                 sender.sendMessage(Utils.chat("%tUsage: /adminchat <message>"));

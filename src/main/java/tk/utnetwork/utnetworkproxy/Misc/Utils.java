@@ -145,6 +145,18 @@ public class Utils {
         }
     }
 
+    public static boolean toggleStaffMessages(ProxiedPlayer p) {
+        if (areStaffMessagesOff(p)) {
+            plugin.getConfigManager().getData().set("staffmessagesoff." + p.getUniqueId(), false);
+            plugin.getConfigManager().saveData();
+            return false;
+        } else {
+            plugin.getConfigManager().getData().set("staffmessagesoff." + p.getUniqueId(), true);
+            plugin.getConfigManager().saveData();
+            return true;
+        }
+    }
+
     public static void sendStaffChat(String from, String msg) {
         sendStaffMessage(from + "&8: &b"+msg);
     }

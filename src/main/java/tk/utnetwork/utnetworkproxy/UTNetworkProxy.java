@@ -54,6 +54,7 @@ public final class UTNetworkProxy extends Plugin {
         registerCommand(new StaffChat(this, "staffchat", "proxy.staffchat", new String[] {"sc"}));
         registerCommand(new OnlineStaff(this, "onlinestaff", "proxy.onlinestaff", new String[] {"os"}));
         registerCommand(new Forge(this, "forge", "proxy.forge", new String[] {}));
+        registerCommand(new ToggleStaffMessages(this, "togglestaffmessages", "proxy.tsm", new String[] {"tsm", "hush"}));
 
         // ----------------
         // GENERAL

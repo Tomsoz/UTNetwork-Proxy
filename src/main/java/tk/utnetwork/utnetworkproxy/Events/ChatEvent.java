@@ -21,6 +21,10 @@ public class ChatEvent implements Listener {
             String msg = e.getMessage().replaceFirst("a# ", "");
             if (p.hasPermission("proxy.adminchat")) {
                 e.setCancelled(true);
+                if (Utils.areStaffMessagesOff(p)) {
+                    p.sendMessage(Utils.chat("%tYou can't use staffchat as your staff messages are disabled."));
+                    return;
+                }
                 Utils.sendAdminChat(p.getDisplayName(), msg);
                 return;
             }
@@ -29,6 +33,10 @@ public class ChatEvent implements Listener {
             String msg = e.getMessage().replaceFirst("# ", "");
             if (p.hasPermission("proxy.staffchat")) {
                 e.setCancelled(true);
+                if (Utils.areStaffMessagesOff(p)) {
+                    p.sendMessage(Utils.chat("%tYou can't use staffchat as your staff messages are disabled."));
+                    return;
+                }
                 Utils.sendStaffChat(p.getDisplayName(), msg);
                 return;
             }
@@ -42,6 +50,10 @@ public class ChatEvent implements Listener {
                 return;
             }
             e.setCancelled(true);
+            if (Utils.areStaffMessagesOff(p)) {
+                p.sendMessage(Utils.chat("%tYou can't use adminchat as your staff messages are disabled."));
+                return;
+            }
             Utils.sendAdminChat(p.getDisplayName(), e.getMessage());
             return;
         }
@@ -54,6 +66,10 @@ public class ChatEvent implements Listener {
                 return;
             }
             e.setCancelled(true);
+            if (Utils.areStaffMessagesOff(p)) {
+                p.sendMessage(Utils.chat("%tYou can't use staffchat as your staff messages are disabled."));
+                return;
+            }
             Utils.sendStaffChat(p.getDisplayName(), e.getMessage());
             return;
         }
