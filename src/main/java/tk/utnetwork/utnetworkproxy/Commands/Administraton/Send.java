@@ -28,9 +28,27 @@ public class Send extends Command implements TabExecutor {
         }
 
         ProxiedPlayer target = ProxyServer.getInstance().getPlayer(args[0]);
+        ArrayList<ProxiedPlayer> targets = new ArrayList<>();
         if (target == null) {
-            sender.sendMessage(Utils.chat("%tPlayer " + args[0] + " is not online."));
-            return;
+            if (args[0].equalsIgnoreCase("all")) {
+                for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
+                    targets.add(p);
+                }
+            } else if (args[0].equalsIgnoreCase("current")) {
+                if (!(sender instanceof ProxiedPlayer)) {
+                    sender.sendMessage(Utils.chat("%tThis argument can only be used by online players."));
+                    return;
+                }
+                ProxiedPlayer me = (ProxiedPlayer) sender;
+                for (ProxiedPlayer p : me.getServer().getInfo().getPlayers()) {
+                    targets.add(p);
+                }
+            } else {
+                sender.sendMessage(Utils.chat("%tPlayer " + args[0] + " is not online."));
+                return;
+            }
+        } else {
+            targets.add(target);
         }
 
         ServerInfo server = ProxyServer.getInstance().getServerInfo(args[1]);
@@ -39,14 +57,16 @@ public class Send extends Command implements TabExecutor {
             return;
         }
 
-        if (target.getServer().getInfo().equals(server)) {
+        if (target == null ? false : target.getServer().getInfo().equals(server)) {
             sender.sendMessage(Utils.chat("%t" + target.getDisplayName() + " %tis already connected to " + server.getName() + "%t."));
             return;
         }
 
-        target.connect(server, ServerConnectEvent.Reason.COMMAND);
-        sender.sendMessage(Utils.chat("%pAttempted to send %s" + target.getDisplayName() + " %pto %s" + server.getName() + "%p."));
-        target.sendMessage(Utils.chat("%pYou've been sent to %s" + server.getName() + " %pby %s" + ((sender instanceof ProxiedPlayer) ? ((ProxiedPlayer)sender).getDisplayName() : plugin.getConfigManager().getConfig().getString("console_displayname") == null ? "&c&lConsole" : plugin.getConfigManager().getConfig().getString("console_displayname")) + "%p."));
+        for (ProxiedPlayer p : targets) {
+            p.connect(server, ServerConnectEvent.Reason.COMMAND);
+            p.sendMessage(Utils.chat("%pYou've been sent to %s" + server.getName() + " %pby %s" + ((sender instanceof ProxiedPlayer) ? ((ProxiedPlayer)sender).getDisplayName() : plugin.getConfigManager().getConfig().getString("console_displayname") == null ? "&c&lConsole" : plugin.getConfigManager().getConfig().getString("console_displayname")) + "%p."));
+        }
+        sender.sendMessage(Utils.chat("%pAttempted to send %s" + (target == null ? args[0] : target.getDisplayName()) + " %pto %s" + server.getName() + "%p."));
     }
 
     @Override
@@ -59,6 +79,7 @@ public class Send extends Command implements TabExecutor {
                 }
             }
             if ("all".startsWith(args[0].toLowerCase())) results.add("all");
+            if ("current".startsWith(args[0].toLowerCase())) results.add("current");
 
             for (Map.Entry<String, ServerInfo> s : ProxyServer.getInstance().getServersCopy().entrySet()) {
                 if (s.getValue().getName().toLowerCase().startsWith(args[0].toLowerCase())) {
