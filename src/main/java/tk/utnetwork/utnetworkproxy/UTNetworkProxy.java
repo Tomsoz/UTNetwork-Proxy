@@ -4,10 +4,7 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
-import tk.utnetwork.utnetworkproxy.Commands.Administraton.Alert;
-import tk.utnetwork.utnetworkproxy.Commands.Administraton.AlertRaw;
-import tk.utnetwork.utnetworkproxy.Commands.Administraton.Find;
-import tk.utnetwork.utnetworkproxy.Commands.Administraton.Send;
+import tk.utnetwork.utnetworkproxy.Commands.Administraton.*;
 import tk.utnetwork.utnetworkproxy.Commands.General.GList;
 import tk.utnetwork.utnetworkproxy.Misc.ConfigManager;
 import tk.utnetwork.utnetworkproxy.Misc.Utils;
@@ -36,6 +33,8 @@ public final class UTNetworkProxy extends Plugin {
         registerCommand(new Alert(this, "alert", "proxy.alert", new String[] {}));
         registerCommand(new AlertRaw(this, "alertraw", "proxy.alertraw", new String[] {}));
         registerCommand(new Find(this, "find", "proxy.find", new String[] {}));
+        registerCommand(new Server(this, "server", "proxy.server", new String[] {}));
+
         registerCommand(new GList(this, "glist", "proxy.glist", new String[] {}));
     }
 

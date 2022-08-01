@@ -29,7 +29,7 @@ public class GList extends Command {
         for (ServerInfo s : ProxyServer.getInstance().getServersCopy().values()) {
             ArrayList<String> players = new ArrayList<>();
             for (ProxiedPlayer p : s.getPlayers()) {
-                players.add("%s" + p.getDisplayName() + "&p");
+                players.add("%s" + p.getDisplayName() + "%p");
             }
             String list = players.toString();
             list = list.substring(1);
