@@ -1,6 +1,5 @@
 package tk.utnetwork.utnetworkproxy;
 
-import com.google.common.collect.HashBiMap;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Listener;
@@ -15,7 +14,6 @@ import tk.utnetwork.utnetworkproxy.Misc.ConfigManager;
 import tk.utnetwork.utnetworkproxy.Misc.Utils;
 
 import java.util.HashMap;
-import java.util.UUID;
 
 public final class UTNetworkProxy extends Plugin {
     Utils utils;
@@ -45,6 +43,7 @@ public final class UTNetworkProxy extends Plugin {
         registerCommand(new Alert(this, "alert", "proxy.alert", new String[] {}));
         registerCommand(new AlertRaw(this, "alertraw", "proxy.alertraw", new String[] {}));
         registerCommand(new AdminChat(this, "adminchat", "proxy.adminchat", new String[] {"ac"}));
+        registerCommand(new ReloadProxy(this, "reloadproxy", "proxy.reloadproxy", new String[] {"rlp"}));
 
         // ----------------
         // STAFF
