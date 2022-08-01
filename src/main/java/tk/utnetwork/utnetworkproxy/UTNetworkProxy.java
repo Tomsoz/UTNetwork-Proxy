@@ -6,6 +6,7 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import tk.utnetwork.utnetworkproxy.Commands.Administraton.*;
 import tk.utnetwork.utnetworkproxy.Commands.General.GList;
+import tk.utnetwork.utnetworkproxy.Commands.General.Hub;
 import tk.utnetwork.utnetworkproxy.Events.JoinEvent;
 import tk.utnetwork.utnetworkproxy.Events.QuitEvent;
 import tk.utnetwork.utnetworkproxy.Misc.ConfigManager;
@@ -31,12 +32,19 @@ public final class UTNetworkProxy extends Plugin {
     }
 
     public void registerCommands() {
+        // ----------------
+        // ADMINISTRATION
+        // ----------------
         registerCommand(new Send(this, "send", "proxy.send", new String[] {}));
         registerCommand(new Alert(this, "alert", "proxy.alert", new String[] {}));
         registerCommand(new AlertRaw(this, "alertraw", "proxy.alertraw", new String[] {}));
         registerCommand(new Find(this, "find", "proxy.find", new String[] {}));
         registerCommand(new Server(this, "server", "proxy.server", new String[] {}));
 
+        // ----------------
+        // GENERAL
+        // ----------------
+        registerCommand(new Hub(this, "hub", "proxy.hub", new String[] {"l", "lobby", "h"}));
         registerCommand(new GList(this, "glist", "proxy.glist", new String[] {}));
     }
 

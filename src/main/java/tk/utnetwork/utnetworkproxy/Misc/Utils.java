@@ -7,6 +7,9 @@ import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import tk.utnetwork.utnetworkproxy.UTNetworkProxy;
 
+import java.util.List;
+import java.util.Random;
+
 public class Utils {
     static UTNetworkProxy plugin;
     public Utils(UTNetworkProxy plugin) {
@@ -62,6 +65,20 @@ public class Utils {
         ProxyServer.getInstance().getConsole().sendMessage(new ComponentBuilder((plugin.getConfigManager().getConfig().getString("staffPrefix") == null ? "&3&lStaff &8- " : plugin.getConfigManager().getConfig().getString("staffPrefix") + message)
                                                                 .replaceAll("&", "§"))
                                                                 .create());
+        return true;
+    }
+
+    public static String getRandomElement(List<String> list) {
+        Random rand = new Random();
+        return list.get(rand.nextInt(list.size()));
+    }
+
+    public static boolean sendHub(ProxiedPlayer p) {
+        ServerInfo server = ProxyServer.getInstance().getServerInfo(getRandomElement(plugin.getConfigManager().getConfig().getStringList("hubServers")));
+        if (server == null || !server.canAccess(p)) {
+            return false;
+        }
+        p.connect(server);
         return true;
     }
 }

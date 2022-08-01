@@ -39,6 +39,7 @@ public class JoinEvent implements Listener {
             }
         } else if (e.getReason().equals(ServerConnectEvent.Reason.LOBBY_FALLBACK) ||
                 e.getReason().equals(ServerConnectEvent.Reason.SERVER_DOWN_REDIRECT)) {
+            if (e.getPlayer().getServer().getInfo().equals(e.getTarget())) return;
             if (p.hasPermission("staff")) {
                 Utils.sendStaffMessage(p.getDisplayName() + " &bhas connected to fallback server &3" + e.getRequest().getTarget().getName() + "&b.");
             } else {
@@ -47,10 +48,11 @@ public class JoinEvent implements Listener {
                         .create());
             }
         } else {
+            if (e.getPlayer().getServer().getInfo().equals(e.getTarget())) return;
             if (p.hasPermission("staff")) {
-                Utils.sendStaffMessage(p.getDisplayName() + " &bhas connected to &3" + e.getRequest().getTarget().getName() + "&b.");
+                Utils.sendStaffMessage(p.getDisplayName() + " &bhas joined &3" + e.getRequest().getTarget().getName() + "&b from &3" + e.getPlayer().getServer().getInfo().getName() + "&b.");
             } else {
-                ProxyServer.getInstance().getConsole().sendMessage(new ComponentBuilder((plugin.getConfigManager().getConfig().getString("staffPrefix") == null ? "&3&lStaff &8- " : plugin.getConfigManager().getConfig().getString("staffPrefix") + p.getDisplayName() + " &bhas connected to &3" + e.getRequest().getTarget().getName() + "&b.")
+                ProxyServer.getInstance().getConsole().sendMessage(new ComponentBuilder((plugin.getConfigManager().getConfig().getString("staffPrefix") == null ? "&3&lStaff &8- " : plugin.getConfigManager().getConfig().getString("staffPrefix") + p.getDisplayName() + " &bhas joined &3" + e.getRequest().getTarget().getName() + "&b from &3" + e.getPlayer().getServer().getInfo().getName() + "&b.")
                         .replaceAll("&", "§"))
                         .create());
             }

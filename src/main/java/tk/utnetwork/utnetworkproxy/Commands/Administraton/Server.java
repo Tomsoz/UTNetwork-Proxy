@@ -51,7 +51,7 @@ public class Server extends Command implements TabExecutor {
         List<String> results = new ArrayList<>();
         if (args.length == 1) {
             for (ServerInfo s : ProxyServer.getInstance().getServersCopy().values()) {
-                if (s.getName().startsWith(args[0])) {
+                if (s.getName().startsWith(args[0]) && s.canAccess(sender)) {
                     results.add(s.getName());
                 }
             }

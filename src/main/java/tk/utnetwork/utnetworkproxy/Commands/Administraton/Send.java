@@ -31,10 +31,20 @@ public class Send extends Command implements TabExecutor {
         ArrayList<ProxiedPlayer> targets = new ArrayList<>();
         if (target == null) {
             if (args[0].equalsIgnoreCase("all")) {
+                if (!(sender instanceof ProxiedPlayer ? ((ProxiedPlayer)sender).hasPermission("proxy.send.all") : true)) {
+                    sender.sendMessage(Utils.chat("%tYou don't have permission to send all players."));
+                    return;
+                }
+
                 for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
                     targets.add(p);
                 }
             } else if (args[0].equalsIgnoreCase("current")) {
+                if (!(sender instanceof ProxiedPlayer ? ((ProxiedPlayer)sender).hasPermission("proxy.send.current") : true)) {
+                    sender.sendMessage(Utils.chat("%tYou don't have permission to send all players on your current server."));
+                    return;
+                }
+
                 if (!(sender instanceof ProxiedPlayer)) {
                     sender.sendMessage(Utils.chat("%tThis argument can only be used by online players."));
                     return;
@@ -78,8 +88,12 @@ public class Send extends Command implements TabExecutor {
                     results.add(p.getName());
                 }
             }
-            if ("all".startsWith(args[0].toLowerCase())) results.add("all");
-            if ("current".startsWith(args[0].toLowerCase())) results.add("current");
+            if (sender instanceof ProxiedPlayer ? ((ProxiedPlayer)sender).hasPermission("proxy.send.all") : true) {
+                if ("all".startsWith(args[0].toLowerCase())) results.add("all");
+            }
+            if (sender instanceof ProxiedPlayer ? ((ProxiedPlayer)sender).hasPermission("proxy.send.current") : true) {
+                if ("current".startsWith(args[0].toLowerCase())) results.add("current");
+            }
 
             for (Map.Entry<String, ServerInfo> s : ProxyServer.getInstance().getServersCopy().entrySet()) {
                 if (s.getValue().getName().toLowerCase().startsWith(args[0].toLowerCase())) {
