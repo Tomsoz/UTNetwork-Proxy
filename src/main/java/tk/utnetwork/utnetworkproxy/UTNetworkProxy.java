@@ -6,6 +6,8 @@ import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import tk.utnetwork.utnetworkproxy.Commands.Administraton.*;
 import tk.utnetwork.utnetworkproxy.Commands.General.GList;
+import tk.utnetwork.utnetworkproxy.Events.JoinEvent;
+import tk.utnetwork.utnetworkproxy.Events.QuitEvent;
 import tk.utnetwork.utnetworkproxy.Misc.ConfigManager;
 import tk.utnetwork.utnetworkproxy.Misc.Utils;
 
@@ -39,7 +41,8 @@ public final class UTNetworkProxy extends Plugin {
     }
 
     public void registerEvents() {
-
+        registerEvent(new JoinEvent(this));
+        registerEvent(new QuitEvent(this));
     }
 
     public void setupConfig() {

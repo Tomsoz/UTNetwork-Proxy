@@ -10,6 +10,7 @@ import tk.utnetwork.utnetworkproxy.Misc.Utils;
 import tk.utnetwork.utnetworkproxy.UTNetworkProxy;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Server extends Command implements TabExecutor {
     UTNetworkProxy plugin;
@@ -47,6 +48,14 @@ public class Server extends Command implements TabExecutor {
 
     @Override
     public Iterable<String> onTabComplete(CommandSender sender, String[] args) {
-        return null;
+        List<String> results = new ArrayList<>();
+        if (args.length == 1) {
+            for (ServerInfo s : ProxyServer.getInstance().getServersCopy().values()) {
+                if (s.getName().startsWith(args[0])) {
+                    results.add(s.getName());
+                }
+            }
+        }
+        return results;
     }
 }

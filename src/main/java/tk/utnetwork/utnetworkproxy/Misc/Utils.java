@@ -4,6 +4,7 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import tk.utnetwork.utnetworkproxy.UTNetworkProxy;
 
 public class Utils {
@@ -50,4 +51,17 @@ public class Utils {
         return true;
     }
 
+    public static boolean sendStaffMessage(String message) {
+        for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
+            if (p.hasPermission("staff")) {
+                p.sendMessage(new ComponentBuilder((plugin.getConfigManager().getConfig().getString("staffPrefix") == null ? "&3&lStaff &8- " : plugin.getConfigManager().getConfig().getString("staffPrefix") + message)
+                                .replaceAll("&", "§"))
+                                .create());
+            }
+        }
+        ProxyServer.getInstance().getConsole().sendMessage(new ComponentBuilder((plugin.getConfigManager().getConfig().getString("staffPrefix") == null ? "&3&lStaff &8- " : plugin.getConfigManager().getConfig().getString("staffPrefix") + message)
+                                                                .replaceAll("&", "§"))
+                                                                .create());
+        return true;
+    }
 }
