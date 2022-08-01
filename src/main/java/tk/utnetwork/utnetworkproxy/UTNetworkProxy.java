@@ -6,13 +6,8 @@ import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 import tk.utnetwork.utnetworkproxy.Commands.Administraton.*;
-import tk.utnetwork.utnetworkproxy.Commands.General.GList;
-import tk.utnetwork.utnetworkproxy.Commands.General.Hub;
-import tk.utnetwork.utnetworkproxy.Commands.General.Message;
-import tk.utnetwork.utnetworkproxy.Commands.General.Reply;
-import tk.utnetwork.utnetworkproxy.Commands.Staff.Find;
-import tk.utnetwork.utnetworkproxy.Commands.Staff.Server;
-import tk.utnetwork.utnetworkproxy.Commands.Staff.StaffChat;
+import tk.utnetwork.utnetworkproxy.Commands.General.*;
+import tk.utnetwork.utnetworkproxy.Commands.Staff.*;
 import tk.utnetwork.utnetworkproxy.Events.ChatEvent;
 import tk.utnetwork.utnetworkproxy.Events.JoinEvent;
 import tk.utnetwork.utnetworkproxy.Events.QuitEvent;
@@ -57,6 +52,8 @@ public final class UTNetworkProxy extends Plugin {
         registerCommand(new Find(this, "find", "proxy.find", new String[] {}));
         registerCommand(new Server(this, "server", "proxy.server", new String[] {}));
         registerCommand(new StaffChat(this, "staffchat", "proxy.staffchat", new String[] {"sc"}));
+        registerCommand(new OnlineStaff(this, "onlinestaff", "proxy.onlinestaff", new String[] {"os"}));
+        registerCommand(new Forge(this, "forge", "proxy.forge", new String[] {}));
 
         // ----------------
         // GENERAL
@@ -65,6 +62,7 @@ public final class UTNetworkProxy extends Plugin {
         registerCommand(new GList(this, "glist", "proxy.glist", new String[] {}));
         registerCommand(new Message(this, "message", "proxy.message", new String[] {"msg", "whisper", "w"}));
         registerCommand(new Reply(this, "reply", "proxy.message", new String[] {"r"}));
+        registerCommand(new Report(this, "report", "proxy.report", new String[] {}));
     }
 
     public void registerEvents() {

@@ -18,12 +18,14 @@ public class ConfigManager {
 
     private Configuration config;
     private Configuration data;
+    private Configuration reports;
 
     public boolean initialise() {
         try {
-            if (generateConfig() && generateData()) {
+            if (generateConfig() && generateData() && generateReports()) {
                 config = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
                 data = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "data.yml"));
+                reports = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "reports.yml"));
             } else {
                 return false;
             }
@@ -45,6 +47,26 @@ public class ConfigManager {
             if (!configFile.exists()) {
                 FileOutputStream outputStream = new FileOutputStream(configFile);
                 InputStream in = this.getClass().getClassLoader().getResourceAsStream("config.yml");
+                in.transferTo(outputStream);
+            }
+            return true;
+        } catch(IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean generateReports() {
+        try {
+            if (!plugin.getDataFolder().exists()) {
+                Utils.log("Generated configuration folder: " + plugin.getDataFolder().mkdir());
+            }
+
+            File reportsFile = new File(plugin.getDataFolder(), "reports.yml");
+
+            if (!reportsFile.exists()) {
+                FileOutputStream outputStream = new FileOutputStream(reportsFile);
+                InputStream in = this.getClass().getClassLoader().getResourceAsStream("reports.yml");
                 in.transferTo(outputStream);
             }
             return true;
@@ -129,5 +151,34 @@ public class ConfigManager {
 
     public Configuration getData() {
         return data;
+    }
+
+
+    public boolean saveReports() {
+        try {
+            ConfigurationProvider.getProvider(YamlConfiguration.class).save(reports, new File(plugin.getDataFolder(), "reports.yml"));
+            return true;
+        } catch(IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean reloadReports() {
+        try {
+            if (generateReports()) {
+                reports = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "reports.yml"));
+            } else {
+                return false;
+            }
+            return true;
+        } catch(IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Configuration getReports() {
+        return reports;
     }
 }
