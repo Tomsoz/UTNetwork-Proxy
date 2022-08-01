@@ -1,6 +1,7 @@
 console_displayname: "&c&lConsole"
 prefix: "%p[%sUT%p] "
 staffPrefix: "&3&lStaff&r &8- "
+adminPrefix: "&c&lAdmin&r &8- "
 hubServers:
   - "lobby"
 colours:

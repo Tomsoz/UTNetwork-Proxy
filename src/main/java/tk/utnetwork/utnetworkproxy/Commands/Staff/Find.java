@@ -1,4 +1,4 @@
-package tk.utnetwork.utnetworkproxy.Commands.Administraton;
+package tk.utnetwork.utnetworkproxy.Commands.Staff;
 
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;

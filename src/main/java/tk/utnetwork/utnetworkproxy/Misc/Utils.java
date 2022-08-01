@@ -24,6 +24,15 @@ public class Utils {
                 .create();
     }
 
+    public static BaseComponent[] chatRaw(String textToTranslate) {
+        return new ComponentBuilder(textToTranslate
+                .replaceAll("%p", getPrimaryColour())
+                .replaceAll("%s", getSecondaryColour())
+                .replaceAll("%t", getTertiaryColour())
+                .replaceAll("&", "§"))
+                .create();
+    }
+
     public static void log(String message) {
         ProxyServer.getInstance().getConsole().sendMessage(new ComponentBuilder(message.replaceAll("%p", getPrimaryColour())
                 .replaceAll("%s", getSecondaryColour())
@@ -56,7 +65,7 @@ public class Utils {
 
     public static boolean sendStaffMessage(String message) {
         for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
-            if (p.hasPermission("staff")) {
+            if (p.hasPermission("staff") && !areStaffMessagesOff(p)) {
                 p.sendMessage(new ComponentBuilder((plugin.getConfigManager().getConfig().getString("staffPrefix") == null ? "&3&lStaff &8- " : plugin.getConfigManager().getConfig().getString("staffPrefix") + message)
                                 .replaceAll("&", "§"))
                                 .create());
@@ -65,6 +74,20 @@ public class Utils {
         ProxyServer.getInstance().getConsole().sendMessage(new ComponentBuilder((plugin.getConfigManager().getConfig().getString("staffPrefix") == null ? "&3&lStaff &8- " : plugin.getConfigManager().getConfig().getString("staffPrefix") + message)
                                                                 .replaceAll("&", "§"))
                                                                 .create());
+        return true;
+    }
+
+    public static boolean sendAdminMessage(String message) {
+        for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
+            if (p.hasPermission("admin") && !areStaffMessagesOff(p)) {
+                p.sendMessage(new ComponentBuilder((plugin.getConfigManager().getConfig().getString("adminPrefix") == null ? "&c&lAdmin &8- " : plugin.getConfigManager().getConfig().getString("adminPrefix") + message)
+                        .replaceAll("&", "§"))
+                        .create());
+            }
+        }
+        ProxyServer.getInstance().getConsole().sendMessage(new ComponentBuilder((plugin.getConfigManager().getConfig().getString("adminPrefix") == null ? "&c&lAdmin &8- " : plugin.getConfigManager().getConfig().getString("adminPrefix") + message)
+                .replaceAll("&", "§"))
+                .create());
         return true;
     }
 
@@ -80,5 +103,61 @@ public class Utils {
         }
         p.connect(server);
         return true;
+    }
+
+
+    public static boolean isAdminChatOn(ProxiedPlayer p) {
+        return plugin.getConfigManager().getData().getBoolean("adminchat." + p.getUniqueId());
+    }
+
+    public static boolean toggleAdminChat(ProxiedPlayer p) {
+        if (isAdminChatOn(p)) {
+            plugin.getConfigManager().getData().set("adminchat." + p.getUniqueId(), false);
+            plugin.getConfigManager().saveData();
+            return false;
+        } else {
+            plugin.getConfigManager().getData().set("adminchat." + p.getUniqueId(), true);
+            plugin.getConfigManager().saveData();
+            return true;
+        }
+    }
+
+    public static void sendAdminChat(String from, String msg) {
+        sendAdminMessage(from + "&8: &b"+msg);
+    }
+
+
+
+
+    public static boolean isStaffChatOn(ProxiedPlayer p) {
+        return plugin.getConfigManager().getData().getBoolean("staffchat." + p.getUniqueId());
+    }
+
+    public static boolean toggleStaffChat(ProxiedPlayer p) {
+        if (isStaffChatOn(p)) {
+            plugin.getConfigManager().getData().set("staffchat." + p.getUniqueId(), false);
+            plugin.getConfigManager().saveData();
+            return false;
+        } else {
+            plugin.getConfigManager().getData().set("staffchat." + p.getUniqueId(), true);
+            plugin.getConfigManager().saveData();
+            return true;
+        }
+    }
+
+    public static void sendStaffChat(String from, String msg) {
+        sendStaffMessage(from + "&8: &b"+msg);
+    }
+
+    public static boolean areStaffMessagesOff(ProxiedPlayer p) {
+        return plugin.getConfigManager().getData().getBoolean("staffmessagesoff." + p.getUniqueId());
+    }
+
+    public static String[] removeFirstElement(String[] arr) {
+        String newArr[] = new String[arr.length - 1];
+        for (int i = 1; i < arr.length; i++) {
+            newArr[i-1] = arr[i];
+        }
+        return newArr;
     }
 }
