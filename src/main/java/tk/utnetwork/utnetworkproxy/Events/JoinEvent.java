@@ -2,9 +2,7 @@ package tk.utnetwork.utnetworkproxy.Events;
 
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
-import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.user.User;
-import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -23,13 +21,12 @@ public class JoinEvent implements Listener {
     @EventHandler
     public void onJoin(ServerConnectEvent e) {
         ProxiedPlayer p = e.getPlayer();
+        LuckPerms api = LuckPermsProvider.get();
+        User u = api.getUserManager().getUser(p.getUniqueId());
+        String colour = api.getGroupManager().getGroup(u.getPrimaryGroup()).getCachedData().getMetaData().getPrefixes().get(0);
+
+        p.setDisplayName((colour + p.getName()).replaceAll("&", "§"));
         if (e.getReason().equals(ServerConnectEvent.Reason.JOIN_PROXY)) {
-            LuckPerms api = LuckPermsProvider.get();
-            User u = api.getUserManager().getUser(p.getUniqueId());
-            String colour = api.getGroupManager().getGroup(u.getPrimaryGroup()).getCachedData().getMetaData().getPrefixes().get(0);
-
-            p.setDisplayName(ChatColor.translateAlternateColorCodes('&', colour + p.getName()));
-
             if (p.hasPermission("staff")) {
                 Utils.sendStaffMessage(p.getDisplayName() + " &bhas connected" + (e.getTarget() == null ? "" : (" to &3" + e.getTarget().getName() + "&b")) + ".");
             } else {
