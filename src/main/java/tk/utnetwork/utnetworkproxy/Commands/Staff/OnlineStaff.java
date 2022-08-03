@@ -2,7 +2,6 @@ package tk.utnetwork.utnetworkproxy.Commands.Staff;
 
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.config.ListenerInfo;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
@@ -22,7 +21,7 @@ public class OnlineStaff extends Command {
     public void execute(CommandSender sender, String[] args) {
         int playersN = 0;
         for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
-            if (p.hasPermission("staff")) {
+            if (p.hasPermission("staff") && sender instanceof ProxiedPlayer ? Utils.canSee(p, (ProxiedPlayer) sender) : true) {
                 playersN++;
             }
         }
@@ -30,14 +29,14 @@ public class OnlineStaff extends Command {
         for (ServerInfo s : ProxyServer.getInstance().getServersCopy().values()) {
             ArrayList<String> players = new ArrayList<>();
             for (ProxiedPlayer p : s.getPlayers()) {
-                if (p.hasPermission("staff")) {
+                if (p.hasPermission("staff") && sender instanceof ProxiedPlayer ? Utils.canSee(p, (ProxiedPlayer) sender) : true) {
                     players.add("%s" + p.getDisplayName() + "%p");
                 }
             }
             String list = players.toString();
             list = list.substring(1);
             list = list.substring(0, list.length() - 1);
-            sender.sendMessage(Utils.chat("%s" + s.getName() + "%p (%s" + s.getPlayers().size() + "%p): " + list));
+            sender.sendMessage(Utils.chat("%s" + s.getName() + "%p (%s" + players.size() + "%p): " + list));
         }
     }
 }

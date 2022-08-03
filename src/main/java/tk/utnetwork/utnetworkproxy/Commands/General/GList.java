@@ -25,16 +25,24 @@ public class GList extends Command {
             maxPlayers = listener.getMaxPlayers();
             break;
         }
-        sender.sendMessage(Utils.chat("%pTotal Online Players: %s" + ProxyServer.getInstance().getPlayers().size() + "/" + maxPlayers));
+        int playersN = 0;
+        for (ProxiedPlayer p : ProxyServer.getInstance().getPlayers()) {
+            if (sender instanceof ProxiedPlayer ? Utils.canSee(p, (ProxiedPlayer) sender) : true) {
+                playersN++;
+            }
+        }
+        sender.sendMessage(Utils.chat("%pTotal Online Players: %s" + playersN + "/" + maxPlayers));
         for (ServerInfo s : ProxyServer.getInstance().getServersCopy().values()) {
             ArrayList<String> players = new ArrayList<>();
             for (ProxiedPlayer p : s.getPlayers()) {
-                players.add("%s" + p.getDisplayName() + "%p");
+                if (sender instanceof ProxiedPlayer ? Utils.canSee(p, (ProxiedPlayer) sender) : true) {
+                    players.add("%s" + p.getDisplayName() + "%p");
+                }
             }
             String list = players.toString();
             list = list.substring(1);
             list = list.substring(0, list.length() - 1);
-            sender.sendMessage(Utils.chat("%s" + s.getName() + "%p (%s" + s.getPlayers().size() + "%p): " + list));
+            sender.sendMessage(Utils.chat("%s" + s.getName() + "%p (%s" + players.size() + "%p): " + list));
         }
     }
 }

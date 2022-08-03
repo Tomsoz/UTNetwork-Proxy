@@ -1,5 +1,6 @@
 package tk.utnetwork.utnetworkproxy.Misc;
 
+import de.myzelyam.api.vanish.BungeeVanishAPI;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
@@ -171,5 +172,9 @@ public class Utils {
             newArr[i-1] = arr[i];
         }
         return newArr;
+    }
+
+    public static boolean canSee(ProxiedPlayer target, ProxiedPlayer viewer) {
+        return BungeeVanishAPI.canSee(viewer, target);
     }
 }
