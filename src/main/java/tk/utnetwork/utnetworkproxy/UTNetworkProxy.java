@@ -9,6 +9,7 @@ import tk.utnetwork.utnetworkproxy.Commands.General.*;
 import tk.utnetwork.utnetworkproxy.Commands.Staff.*;
 import tk.utnetwork.utnetworkproxy.Events.ChatEvent;
 import tk.utnetwork.utnetworkproxy.Events.JoinEvent;
+import tk.utnetwork.utnetworkproxy.Events.PluginMessage;
 import tk.utnetwork.utnetworkproxy.Events.QuitEvent;
 import tk.utnetwork.utnetworkproxy.Misc.ConfigManager;
 import tk.utnetwork.utnetworkproxy.Misc.Utils;
@@ -23,6 +24,7 @@ public final class UTNetworkProxy extends Plugin {
     @Override
     public void onEnable() {
         setupConfig();
+        getProxy().registerChannel( "spigot:messaging" );
 
         utils = new Utils(this);
 
@@ -70,6 +72,7 @@ public final class UTNetworkProxy extends Plugin {
         registerEvent(new JoinEvent(this));
         registerEvent(new QuitEvent(this));
         registerEvent(new ChatEvent(this));
+        registerEvent(new PluginMessage(this));
     }
 
     public void setupConfig() {
