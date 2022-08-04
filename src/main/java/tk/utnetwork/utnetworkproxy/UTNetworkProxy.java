@@ -51,7 +51,7 @@ public final class UTNetworkProxy extends Plugin {
         registerCommand(new Find(this, "find", "proxy.find", new String[] {}));
         registerCommand(new Server(this, "server", "proxy.server", new String[] {}));
         registerCommand(new StaffChat(this, "staffchat", "proxy.staffchat", new String[] {"sc"}));
-        registerCommand(new OnlineStaff(this, "onlinestaff", "proxy.onlinestaff", new String[] {"os"}));
+        registerCommand(new OnlineStaff(this, "onlinestaff", "proxy.onlinestaff", new String[] {"os", "staff"}));
         registerCommand(new Forge(this, "forge", "proxy.forge", new String[] {}));
         registerCommand(new ToggleStaffMessages(this, "togglestaffmessages", "proxy.tsm", new String[] {"tsm", "hush"}));
 
@@ -63,6 +63,7 @@ public final class UTNetworkProxy extends Plugin {
         registerCommand(new Message(this, "message", "proxy.message", new String[] {"msg", "whisper", "w"}));
         registerCommand(new Reply(this, "reply", "proxy.message", new String[] {"r"}));
         registerCommand(new Report(this, "report", "proxy.report", new String[] {}));
+        registerCommand(new TogglePrivateMessages(this, "toggleprivatemessages", "proxy.tpm", new String[] {"tpm"}));
     }
 
     public void registerEvents() {

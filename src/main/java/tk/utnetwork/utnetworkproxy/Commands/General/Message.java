@@ -31,6 +31,15 @@ public class Message extends Command implements TabExecutor {
             return;
         }
 
+        if (sender instanceof ProxiedPlayer && !((ProxiedPlayer) sender).hasPermission("proxy.tpm.bypass") && Utils.arePrivateMessagesOff((ProxiedPlayer) sender)) {
+            sender.sendMessage(Utils.chat("%tFailed to send as your private messages are disabled."));
+            return;
+        }
+        if ((sender instanceof ProxiedPlayer && !((ProxiedPlayer) sender).hasPermission("proxy.tpm.bypass")) && Utils.arePrivateMessagesOff(target)) {
+            sender.sendMessage(Utils.chat("%tFailed to send as " + target.getDisplayName() + "%t's private messages are disabled."));
+            return;
+        }
+
         String message = String.join(" ", Utils.removeFirstElement(args));
         String from = ((sender instanceof ProxiedPlayer) ? ((ProxiedPlayer)sender).getDisplayName() : plugin.getConfigManager().getConfig().getString("console_displayname") == null ? "&c&lConsole" : plugin.getConfigManager().getConfig().getString("console_displayname"));
 

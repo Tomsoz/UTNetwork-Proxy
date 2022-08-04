@@ -17,7 +17,7 @@ public class ChatEvent implements Listener {
     }
 
     @EventHandler
-    public void onChat(net.md_5.bungee.api.event.ChatEvent e) {
+    public void onChatNormal(net.md_5.bungee.api.event.ChatEvent e) {
         if (!(e.getSender() instanceof ProxiedPlayer) || e.isCommand() || e.isProxyCommand()) return;
         ProxiedPlayer p = (ProxiedPlayer) e.getSender();
 

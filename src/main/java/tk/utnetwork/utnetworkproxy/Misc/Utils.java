@@ -177,4 +177,20 @@ public class Utils {
     public static boolean canSee(ProxiedPlayer target, ProxiedPlayer viewer) {
         return BungeeVanishAPI.canSee(viewer, target);
     }
+
+    public static boolean arePrivateMessagesOff(ProxiedPlayer p) {
+        return plugin.getConfigManager().getData().getBoolean("dmsoff." + p.getUniqueId());
+    }
+
+    public static boolean togglePrivateMessages(ProxiedPlayer p) {
+        if (arePrivateMessagesOff(p)) {
+            plugin.getConfigManager().getData().set("dmsoff." + p.getUniqueId(), false);
+            plugin.getConfigManager().saveData();
+            return false;
+        } else {
+            plugin.getConfigManager().getData().set("dmsoff." + p.getUniqueId(), true);
+            plugin.getConfigManager().saveData();
+            return true;
+        }
+    }
 }
